@@ -1,0 +1,112 @@
+<div id="home">
+    <div class="container">
+        <form>
+            <div class="form-group">
+                <label for="formGroupExampleInput">Add Folder</label>
+                <input type="text" class="form-control" id="inputid" placeholder="Enter Absolute Path">
+            </div>
+            <button id="pathsubmitbutton" type="button" class="btn btn-primary">add</button>
+
+        </form>
+        <br>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Path</th>
+                <th scope="col">enabled</th>
+                <th scope="col">Delete</th>
+                <th scope="col">Save</th>
+            </tr>
+            </thead>
+            <tbody id="artb">
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        console.log("ready!");
+    });
+    $.get("/api/folders", function (data) {
+        console.log(data);
+        for (let i = 0; i < data.length; i++) {
+            console.log(i);
+            $("#artb").append("<tr id='" + data[i]._id + "'><td>" + data[i].path + "</td>");
+            if (data[i].enabled) {
+                $("#" + data[i]._id).append("<td><div class='form-check'> <input id='check" + data[i]._id + "' class='form-check-input' type='checkbox' checked='yes' value='true'></div></td>")
+            }
+            else {
+                $("#" + data[i]._id).append("<td><div class='form-check'> <input id='check" + data[i]._id + "' class='form-check-input' type='checkbox' value='true'></div></td>")
+            }
+            $("#" + data[i]._id).append("<td><button delbuttonid=" + data[i]._id + " type=\"button\" class=\"btn btn-danger\">Delete</button></td><td><button savebuttonid=" + data[i]._id + " type=\"button\" class=\"btn btn-primary\">save</button></td>");
+        }
+    });
+    $("body").on("click", ".btn", function () {
+        let delid = $(this).attr('delbuttonid');
+        let saveid = $(this).attr('savebuttonid');
+        let test = $( "#check" + saveid ).prop("checked")
+        if (test) {
+            postdata = {
+                enabled: true
+            }
+        }
+        else {
+            postdata = {
+                enabled: false
+            }
+        }
+        //console.log(test)
+       // postdata = {
+       //     enabled: false,
+       //     extracted: false,
+        //}
+        if (delid) {
+            $.ajax({
+                url: '/api/folders/' + delid,
+                type: 'DELETE',
+                success: function (result) {
+                    //console.log(id);
+                    $("#" + delid).remove();
+                    console.log("its been deleted");
+                }
+            });
+
+
+        } else if (saveid){
+            $.ajax({
+                url: '/api/folders/' + saveid,
+                type: 'PUT',
+                data: postdata,
+                success: function (result) {
+                    //console.log(retryid);
+                    //console.log("its been deleted");
+                    location.reload();
+                }
+            });
+        }
+        else {
+            $.ajax({
+                url: '/api/folders',
+                type: 'POST',
+                data:  {
+                    path: $("#inputid").val(),
+                    enabled: true
+                },
+                success: function (result) {
+                    //console.log(retryid);
+                    //console.log("its been deleted");
+                    location.reload();
+                }
+            });
+        }
+    })
+
+    //$.delete( "/api/archives/" + $(this).attr('buttonid'), function(data) {
+
+</script>
+<script src="/js/index.js"></script>
