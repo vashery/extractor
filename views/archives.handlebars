@@ -5,6 +5,7 @@
             <th scope="col">Path</th>
             <th scope="col">Sent</th>
             <th scope="col">Extracted</th>
+            <th scope="col">WorkingOn</th>
             <th scope="col">Error</th>
             <th scope="col">Errormessage</th>
             <th scope="col">Delete</th>
@@ -36,7 +37,7 @@
         console.log(data);
         for (let i = 0; i < data.length; i++) {
             console.log(i);
-            $("#artb").append("<tr id='" + data[i]._id + "'><td>" + data[i].filepath + "</td><td>" + data[i].senttoextractor + "</td><td>" + data[i].extracted + "</td><td>" + data[i].error + "</td></tr>");
+            $("#artb").append("<tr id='" + data[i]._id + "'><td>" + data[i].filepath + "</td><td>" + data[i].senttoextractor + "</td><td>" + data[i].extracted + "</td><td>" + data[i].workingon + "</td><td>" + data[i].error + "</td></tr>");
             if (data[i].errormessage) {
                 $("#" + data[i]._id).append("<td>" + data[i].errormessage + "</td>");
             } else {
@@ -52,6 +53,7 @@
         postdata = {
             senttoextractor: false,
             extracted: false,
+            workingon: false
         }
         if (id) {
             $.ajax({

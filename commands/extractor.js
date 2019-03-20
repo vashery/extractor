@@ -31,7 +31,7 @@ module.exports = function () {
 
                     console.log("extracted " + fullpath);
                     return db.archives
-                    .updateOne({ _id: docid }, update = { extracted: true })
+                    .updateOne({ _id: docid }, update = { extracted: true, workingon: false })
                     .then()
                     .catch((err) => {
                         console.log(err);
