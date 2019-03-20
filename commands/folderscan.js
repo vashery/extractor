@@ -36,6 +36,7 @@ module.exports = function () {
                     let curentasync = db.archives.create({
                         filepath: fileInfo.fullPath,
                         senttoextractor: false,
+                        workingon: false,
                         extracted: false,
                         error: false,
                     })

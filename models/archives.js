@@ -14,6 +14,7 @@ var ArchiveSchema = new Schema({
     },
     senttoextractor: Boolean,
     extracted: Boolean,
+    workingon: Boolean,
     error: Boolean,
     errormessage: {
         type: String,
